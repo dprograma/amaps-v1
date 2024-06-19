@@ -1,0 +1,175 @@
+version: '3'
+
+services:
+  users:
+    build:
+      context: ./userservice
+    user: root
+    ports:
+      - "8000:8000"
+    depends_on:
+      - db
+    environment:
+      - SECRET_KEY=8c877f580d2f10ab318d1227557bb7fda9b483876fce3c1ff041f86746a66640
+    volumes:
+      - .:/app
+    networks:
+      - holla-network
+  products:
+    build:
+      context: ./productsservice
+    ports:
+      - "8001:8001"
+    depends_on:
+      - db
+    environment:
+      - SECRET_KEY=57f3e69ba1e48c5c6a9e02e79cb9060c7b35c6a6e839a49b25e65546b0ac9eef
+    volumes:
+      - .:/app
+    networks:
+      - holla-network
+  bnpl:
+    build:
+      context: ./bnplservice
+    ports:
+      - "8002:8002"
+    depends_on:
+      - db
+    environment:
+      - SECRET_KEY=5e9a0cbb826a691369a71a318cd9274fd283ab80575b46630911e772f56921f8
+    volumes:
+      - .:/app
+    networks:
+      - holla-network
+  collections:
+    build:
+      context: ./collectionsservice
+    ports:
+      - "8003:8003"
+    depends_on:
+      - db
+    environment:
+      - SECRET_KEY=736582566f856ac25b834dd2486130e0c75c01552fcad9acb24c69b77fc3f277
+    volumes:
+      - .:/app
+    networks:
+      - holla-network
+  kyc:
+    build:
+      context: ./kycservice
+    ports:
+      - "8004:8004"
+    depends_on:
+      - db
+    environment:
+      - SECRET_KEY=483b0f8f87c845a0d68d67762ebb9d409aaadb80e23216856769aed11125b016
+    volumes:
+      - .:/app
+    networks:
+      - holla-network
+  merchantintegration:
+    build:
+      context: ./merchantintegrationservice
+    ports:
+      - "8005:8005"
+    depends_on:
+      - db
+    environment:
+      - SECRET_KEY=638f62761271f79ee813d58d1ddda3e80fd7aa0f0f30d6c2983368897accfadc
+    volumes:
+      - .:/app
+    networks:
+      - holla-network
+  merchantonboarding:
+    build:
+      context: ./merchantonboardingservice
+    ports:
+      - "8006:8006"
+    depends_on:
+      - db
+    environment:
+      - SECRET_KEY=32937ee1514760494356177ca4c336e5f0989396d1bf8c5c47dd2bd4915bb1f3
+    volumes:
+      - .:/app
+    networks:
+      - holla-network
+  paymentoptions:
+    build:
+      context: ./paymentoptionsservice
+    ports:
+      - "8007:8007"
+    depends_on:
+      - db
+    environment:
+      - SECRET_KEY=d8b7ec62c9d48bce94a96477f9a4d3f611a2b357bb134e96b58bc772898c2e4e
+    volumes:
+      - .:/app
+    networks:
+      - holla-network
+  reward:
+    build:
+      context: ./rewardservice
+    ports:
+      - "8008:8008"
+    depends_on:
+      - db
+    environment:
+      - SECRET_KEY=54d31df48cd93749561bfe7f2ea5becf41c12a14f4262579566db0ff17f8eb2e
+    volumes:
+      - .:/app
+    networks:
+      - holla-network
+  settlement:
+    build:
+      context: ./settlementservice
+    ports:
+      - "8009:8009"
+    depends_on:
+      - db
+    environment:
+      - SECRET_KEY=b13783fa6dc6501ecccfc94043f50271e75556c5fa6a333912ed2e12a0a0ef2a
+    volumes:
+      - .:/app
+    networks:
+      - holla-network
+  support:
+    build:
+      context: ./supportservice
+    ports:
+      - "8010:8010"
+    depends_on:
+      - db
+    environment:
+      - SECRET_KEY=21c8f89ad29088f25c7aab2cc43d76c423204717ae59b33c4cdc4c749259572f
+    volumes:
+      - .:/app
+    networks:
+      - holla-network
+  wallet:
+    build:
+      context: ./walletservice
+    ports:
+      - "8011:8011"
+    depends_on:
+      - db
+    environment:
+      - SECRET_KEY=8cdc5d281b04d2d45da3d02c71deb194f8606572da18c02a982e0be22939a489
+    volumes:
+      - .:/app
+    networks:
+      - holla-network
+  db:
+    image: postgres
+    environment:
+      POSTGRES_DB: holladeliveries
+      POSTGRES_USER: holla
+      POSTGRES_PASSWORD: holla
+      DB_HOST: db
+    restart: always
+    ports:
+      - "5432:5432"
+    networks:
+      - holla-network
+
+networks:
+  holla-network:

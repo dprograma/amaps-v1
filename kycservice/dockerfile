@@ -1,0 +1,29 @@
+# Use an official Python runtime as a parent image
+FROM python:3.10-slim-buster
+
+# Set environment variables
+ENV PYTHONUNBUFFERED 1
+ENV DJANGO_SETTINGS_MODULE kycservice.settings
+
+# Set the working directory
+WORKDIR /app
+
+# Install dependencies
+RUN apt-get update && apt-get install -y \
+    postgresql-client \
+    && rm -rf /var/lib/apt/lists/*
+RUN pip install psycopg2-binary
+COPY requirements.txt /app/
+RUN pip install --no-cache-dir -r /app/requirements.txt
+
+# Copy the project files into the container
+COPY . /app/
+
+# Expose the port for the application
+EXPOSE 8004
+
+# Set up Nginx on the container
+RUN apt-get update && apt-get install -y nginx
+
+# Start the application
+CMD ["python", "manage.py", "runserver", "0.0.0.0:8004"]

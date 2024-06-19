@@ -1,0 +1,15 @@
+[tool.poetry]
+name = "userservice"
+version = "0.1.0"
+description = "User service is a microservice for user management"
+authors = ["Kennedy Egwuda"]
+license = "Ojapay Nigeria Limited"
+readme = "README.md"
+
+[tool.poetry.dependencies]
+python = "^3.10"
+
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"

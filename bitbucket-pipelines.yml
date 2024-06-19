@@ -1,0 +1,33 @@
+# bitbucket-pipelines.yml
+
+image: python:3.10  # Choose a Python version that matches your project
+
+pipelines:
+  default:
+    - step:
+        caches:
+          - pip
+        name:  Dependency Installation, Code analysis, Static validation and code testing
+        script:
+          # Install Python dependencies and create a virtual environment
+          - echo "Installing Python dependencies..."
+          - apt-get update -qy
+          - apt-get install -y --no-install-recommends python3-venv
+          - python -m venv venv
+          - source venv/bin/activate
+          - pip install --upgrade pip
+          - pip install -r userservice/requirements.txt
+          # Set the Django Settings Module to Test
+          - export DJANGO_SETTINGS_MODULE=userservice.tests.settings 
+          # Format code using black
+          - echo "Running black..."
+          - black userservice 
+          # Sort code using Isort
+          - echo "Running Isort..."
+          - isort userservice
+          # Ensuring code annotations
+          - echo "Running mypy..."
+          - mypy userservice
+          # Unit test for code
+          - echo "Running pytest..."
+          - pytest userservice
